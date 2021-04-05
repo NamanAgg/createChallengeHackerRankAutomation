@@ -10,23 +10,22 @@ let browserP = puppy.launch({
     defaultViewport: false,
 });
 
-
-const id = "tixig24015@irahada.com";
+const id ="xivof52097@tlhao86.com";
 const pass = "random123";
 let tab;
 
 const challengeDetail=[
     {
-        "name": "first one",
+        "name": "firstChallenge",
         "desc": "Aliquam porttitor lor",
-        "prob": "",
-        "input": "",
-        "constr": "",
-        "output": "",
-        "tags": ""
+        "prob": "kjdfshkjdsf",
+        "input": "sdfuhejnm",
+        "constr": "erdsfijk",
+        "output": "erfdhudsia",
+        "tags": "rewwetrthegfxxc"
     },
     {
-        "name": "second one",
+        "name": "secondChallenge",
         "desc": "Alidshghdsfm porttitor lor",
         "prob": "dfmhdfjbgdkjgdj",
         "input": "dflskjlosk",
@@ -35,7 +34,7 @@ const challengeDetail=[
         "tags": "hdbjgfhdfnmbnnmdf"
     },
     {
-        "name": "third one",
+        "name": "thirdChallenge",
         "desc": "jddsjfliquam porttitor lor",
         "prob": "dfkjhbieujfnd",
         "input": "sldokelgn",
@@ -44,7 +43,7 @@ const challengeDetail=[
         "tags": "dfsnfdhgdskj"
     },
     {
-        "name": "fourth one",
+        "name": "fourthChallenge",
         "desc": "Aliquam po",
         "prob": "jhgfhjfsd",
         "input": "esksuhmdfs",
@@ -53,7 +52,7 @@ const challengeDetail=[
         "tags": "ehoidj"
     },
     {
-        "name": "fifth one",
+        "name": "fifthChallenge",
         "desc": "Aliquam podsfjhbfdsmtitor lor",
         "prob": "ehdjkn",
         "input": "erdfshujkn",
@@ -62,6 +61,9 @@ const challengeDetail=[
         "tags": "gyufdh"
     }
 ];
+const modNames = ["nocidi6371", "ralariv999", "yasekin473", "sibaje3329", "pamahex943", "kipavof852", "kejavib309","mijora9576"];
+
+
 
 (async () =>{
     try{
@@ -70,7 +72,6 @@ const challengeDetail=[
     tab = pages[0];
     await tab.goto('https://www.hackerrank.com/auth/login');
     await login();
-    //main(browser);
     //browser.close();
     }
     catch(err){
@@ -95,8 +96,6 @@ async function login(){
    await tab.type("#input-1", id);
     await tab.type("#input-2", pass);
     await tab.click(".ui-btn.ui-btn-large.ui-btn-primary.auth-button.ui-btn-styled");
-    await tab.waitForSelector(".nav-buttons.theme-m-section", { visible: true });
-    tab.click(".dropdown-handle.nav_link.toggle-wrap");
     await admin();
 }
 function wait(time) {
@@ -107,32 +106,44 @@ function wait(time) {
     })
 }
 async function admin(){
-    //await tab.waitForSelector(".nav-buttons.theme-m-section", { visible: true });
-     //await tab.waitForNavigation({ waitUntil: "networkidle2" });
-    await wait(2000);
-     await tab.click(".dropdown-handle.nav_link.toggle-wrap .username.text-ellipsis");
+     await tab.waitForNavigation({ waitUntil: "networkidle2" });
+    
+     await tab.click(".dropdown-handle.nav_link.toggle-wrap");
      await tab.click("a[data-analytics='NavBarProfileDropDownAdministration']");
-    await wait(2000);
+    await wait(3000);   //here we used wait
+  
     await tab.click("a[href='/administration/challenges']");
     await tab.waitForSelector(".btn.btn-green.backbone.pull-right");
+    
     let challengeButton = await tab.$(".btn.btn-green.backbone.pull-right");
     let createChallengeUrl = await tab.evaluate((ele)=>{
         return ele.getAttribute("href");
     },challengeButton);
     for(let i=0;i<challengeDetail.length;i++){
     tab.goto("https://www.hackerrank.com"+createChallengeUrl);
-        //await tab.waitForSelector(".pull-left.lightweight.pjT.psB",{visible:true});
-        await wait(2000);
+        await tab.waitForNavigation({ waitUntil: "networkidle2" });
         await tab.type("#name",challengeDetail[i]["name"]);
         await tab.type(".description.span16", challengeDetail[i]["desc"]);
-        await wait(2000);
+        await tab.waitForSelector("#problem_statement-container .CodeMirror textarea", { visible: true });
         await tab.type("#problem_statement-container .CodeMirror textarea", challengeDetail[i]["prob"]);
         await tab.type("#input_format-container .CodeMirror textarea", challengeDetail[i]["input"]);
         await tab.type("#constraints-container .CodeMirror textarea", challengeDetail[i]["constr"]);
         await tab.type("#output_format-container .CodeMirror textarea", challengeDetail[i]["output"]);
         await tab.type("#tags_tag", challengeDetail[i]["tags"]);
         await tab.keyboard.press("Enter");
+        await tab.click(".save-challenge.btn.btn-green");
+        await tab.waitForSelector("li[data-tab='moderators'] a",{visible: true});
+        await tab.click("li[data-tab='moderators'] a");
+        for(let j=0;j<modNames.length;j++){
+            await tab.waitForSelector("#moderator", { visible: true });
+            await tab.type("#moderator",modNames[j]);
+            await tab.keyboard.press("Enter");
+            
+        }
+        await tab.click(".save-challenge.btn.btn-green");
     }
+   
+    
 }
 
 
